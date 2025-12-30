@@ -1,0 +1,62 @@
+<mat-sidenav-container class="container">
+
+    <!-- Sidebar -->
+    <mat-sidenav
+      #sidenav
+      class="sidenav"
+      mode="side"
+      [opened]="isSidebarOpen">
+  
+      <h2 class="logo">HR Dashboard</h2>
+  
+      <mat-nav-list>
+        <a mat-list-item routerLink="/">Dashboard</a>
+        <a mat-list-item>Employees</a>
+        <a mat-list-item>Approvals</a>
+        <a mat-list-item>Reports</a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <!-- Main Content -->
+    <mat-sidenav-content>
+  
+      <!-- Top Navbar -->
+      <mat-toolbar color="primary" class="toolbar">
+        <button mat-icon-button (click)="isSidebarOpen = !isSidebarOpen">
+          <mat-icon>menu</mat-icon>
+        </button>
+  
+        <span class="spacer"></span>
+  
+        <button mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+  
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+  
+        <button mat-button [matMenuTriggerFor]="userMenu">
+          Admin <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+  
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item>Profile</button>
+          <button mat-menu-item>Logout</button>
+        </mat-menu>
+      </mat-toolbar>
+  
+      <!-- Router Content -->
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+  
+      <!-- Footer -->
+      <footer class="footer">
+        © 2025 HR Management System
+      </footer>
+  
+    </mat-sidenav-content>
+  
+  </mat-sidenav-container>
+  
