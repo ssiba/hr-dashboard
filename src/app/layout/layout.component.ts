@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -27,5 +27,12 @@ import { CommonModule } from '@angular/common';
 })
 export class LayoutComponent {
   isSidebarOpen = true;
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private router: Router) {}
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+  get userLabel(): string {
+    return this.auth.isAdmin() ? 'Admin' : 'User';
+  }
 }
