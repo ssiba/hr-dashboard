@@ -1,31 +1,85 @@
-<!-- KPIs -->
-<div class="stats">
-    <mat-card>Total Employees <strong>120</strong></mat-card>
-    <mat-card>Pending Approvals <strong>8</strong></mat-card>
-    <mat-card>Monthly Attrition <strong>3%</strong></mat-card>
-    <mat-card>Leaves Today <strong>5</strong></mat-card>
-  </div>
+<div class="dashboard">
+
+    <!-- KPI CARDS -->
+    <section class="kpi-grid">
+      <mat-card class="kpi-card" *ngFor="let kpi of kpis">
+        <h3>{{ kpi.label }}</h3>
+        <h1>{{ kpi.value }}</h1>
+      </mat-card>
+    </section>
   
-  <!-- Insights -->
-  <div class="grid">
-    <mat-card>
-      <h3>Approval Queue</h3>
-      <ul>
-        <li>Leave – Rahul</li>
-        <li>WFH – Anita</li>
-        <li>Expense – Siba</li>
+    <!-- QUICK FILTER -->
+    <section class="filters">
+        <mat-select
+          [(value)]="selectedFilter"
+          (selectionChange)="applyFilter()"
+          placeholder="Quick Filter">
+      
+          <mat-option value="ALL">All Requests</mat-option>
+          <mat-option value="LEAVE">Leave Requests</mat-option>
+          <mat-option value="WFH">WFH Requests</mat-option>
+      
+        </mat-select>
+      </section>
+      
+  
+    <!-- APPROVAL QUEUE -->
+    <mat-card *ngIf="showApprovals">
+      <div class="card-header">
+        <h2>Approval Queue</h2>
+        <button mat-icon-button (click)="showApprovals = false">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+  
+      <table mat-table [dataSource]="filteredApprovals" *ngIf="filteredApprovals.length > 0">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Employee </th>
+          <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let row"> {{ row.type }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let row"> {{ row.date }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" (click)="approve()">Approve</button>
+            <button mat-button color="warn" (click)="reject()">Reject</button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="approvalColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: approvalColumns"></tr>
+      </table>
+      <p *ngIf="filteredApprovals.length === 0" class="empty-state">
+        No requests found for selected filter
+      </p>
+    </mat-card>
+  
+    <!-- ACTIVITY LOG -->
+    <mat-card *ngIf="showActivities">
+      <div class="card-header">
+        <h2>User Activity Logs</h2>
+        <button mat-icon-button (click)="showActivities = false">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+  
+      <ul class="activity-list">
+        <li *ngFor="let log of activityLogs">
+          <mat-icon>history</mat-icon>
+          {{ log }}
+        </li>
       </ul>
     </mat-card>
   
-    <mat-card>
-      <h3>Performance Overview</h3>
-      <div class="chart">Chart Area</div>
-    </mat-card>
   </div>
-  
-  <!-- Employee Table -->
-  <mat-card>
-    <h3>Employee Overview</h3>
-    <!-- table here -->
-  </mat-card>
   
