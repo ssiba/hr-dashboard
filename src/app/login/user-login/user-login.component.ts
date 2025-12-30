@@ -13,6 +13,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-user-login',
   standalone: true,
@@ -34,7 +36,8 @@ export class UserLoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.initializeForm();
   }
@@ -52,20 +55,19 @@ export class UserLoginComponent {
       this.loginForm.markAllAsTouched();
       return;
     }
-
-    this.isLoading = true;
-
-    const loginPayload = this.loginForm.value;
-    console.log('Login Payload:', loginPayload);
-
-    // Mock success login
-    setTimeout(() => {
-      this.isLoading = false;
-
-      // Example: store role (Admin/User)
-      localStorage.setItem('role', 'USER');
-      this.loginForm.reset();
-      // this.router.navigate(['/dashboard']);
-    }, 1000);
+  
+    const { email, password } = this.loginForm.value;
+  
+    const success = this.authService.login(email, password);
+  
+    if (!success) return;
+  
+    if (this.authService.isAdmin()) {
+      this.router.navigate(['/admin-dashboard']);
+    } else {
+      this.router.navigate(['/user-dashboard']);
+    }
+  
+    this.loginForm.reset();
   }
 }

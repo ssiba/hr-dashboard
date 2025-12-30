@@ -5,26 +5,32 @@ import { AdminDashboardComponent } from './dashboard/admin-dashboard/admin-dashb
 import { adminGuard } from './guards/admin.guard';
 import { UserDashboardComponent } from './dashboard/user-dashboard/user-dashboard.component';
 import { UserLoginComponent } from './login/user-login/user-login.component';
+import { authRedirectGuard } from './guards/auth-redirect.guard';
 
 export const routes: Routes = [
-    {
-         path: '', component: UserLoginComponent ,
-        /*
-         path: '',
-        component: LayoutComponent,
-        children: [
-          {
-            path: 'admin',
-            component: AdminDashboardComponent,
-            canActivate: [adminGuard]
-          },
-          {
-            path: 'user',
-            component: UserDashboardComponent
-          },
-          { path: '', redirectTo: 'admin', pathMatch: 'full' }
-        ]
-          */
-      },
-      { path: '**', redirectTo: '' }
+ // LOGIN
+ { path: 'login', component: UserLoginComponent },
+
+ // AUTO REDIRECT AFTER LOGIN
+ { path: '', canActivate: [authRedirectGuard], component: UserLoginComponent },
+
+ // DASHBOARD LAYOUT
+ {
+   path: '',
+   component: LayoutComponent,
+   children: [
+     {
+       path: 'admin-dashboard',
+       component: AdminDashboardComponent,
+       canActivate: [adminGuard]
+     },
+     {
+       path: 'user-dashboard',
+       component: UserDashboardComponent
+     }
+   ]
+ },
+
+ // FALLBACK
+ { path: '**', redirectTo: '' }
 ];

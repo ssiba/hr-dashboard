@@ -12,7 +12,7 @@
       <mat-nav-list>
 
         <!-- Admin Menu -->
-        <ng-container *ngIf="auth.isAdmin()">
+        <ng-container *ngIf="auth.isUser()">
           <a mat-list-item routerLink="/admin">Admin Dashboard</a>
           <a mat-list-item>Approvals</a>
           <a mat-list-item>Employees</a>
@@ -50,12 +50,18 @@
         </button>
   
         <button mat-button [matMenuTriggerFor]="userMenu">
-          Admin <mat-icon>arrow_drop_down</mat-icon>
-        </button>
+            {{ userLabel }}
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          
   
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>Profile</button>
-          <button mat-menu-item>Logout</button>
+          <!-- <button mat-menu-item>Profile</button> -->
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Logout
+          </button>
+          
         </mat-menu>
       </mat-toolbar>
   
