@@ -6,10 +6,15 @@ import { adminGuard } from './guards/admin.guard';
 import { UserDashboardComponent } from './dashboard/user-dashboard/user-dashboard.component';
 import { UserLoginComponent } from './login/user-login/user-login.component';
 import { authRedirectGuard } from './guards/auth-redirect.guard';
+import { UserRegistraionComponent } from './signup/user-registraion/user-registraion.component';
 
 export const routes: Routes = [
- // LOGIN
+
+ // login
  { path: 'login', component: UserLoginComponent },
+
+ //signup
+ { path: 'signup', component: UserRegistraionComponent },
 
  // AUTO REDIRECT AFTER LOGIN
  { path: '', canActivate: [authRedirectGuard], component: UserLoginComponent },
