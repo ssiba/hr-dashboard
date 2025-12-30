@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -17,11 +19,13 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatListModule,
     MatMenuModule,
-    RouterModule
+    RouterModule,
+    CommonModule
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
   isSidebarOpen = true;
+  constructor(public auth: AuthService) {}
 }

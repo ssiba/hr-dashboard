@@ -10,11 +10,24 @@
       <h2 class="logo">HR Dashboard</h2>
   
       <mat-nav-list>
-        <a mat-list-item routerLink="/">Dashboard</a>
-        <a mat-list-item>Employees</a>
-        <a mat-list-item>Approvals</a>
-        <a mat-list-item>Reports</a>
+
+        <!-- Admin Menu -->
+        <ng-container *ngIf="auth.isAdmin()">
+          <a mat-list-item routerLink="/admin">Admin Dashboard</a>
+          <a mat-list-item>Approvals</a>
+          <a mat-list-item>Employees</a>
+          <a mat-list-item>Reports</a>
+        </ng-container>
+      
+        <!-- User Menu -->
+        <ng-container *ngIf="auth.isUser()">
+          <a mat-list-item routerLink="/user">My Dashboard</a>
+          <a mat-list-item>My Requests</a>
+          <a mat-list-item>My Records</a>
+        </ng-container>
+      
       </mat-nav-list>
+      
     </mat-sidenav>
   
     <!-- Main Content -->
