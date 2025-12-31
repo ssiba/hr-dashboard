@@ -1,21 +1,76 @@
-<div class="stats">
-    <mat-card>My Pending Tasks <strong>2</strong></mat-card>
-    <mat-card>My Submissions <strong>12</strong></mat-card>
-  </div>
-  
-  <div class="grid">
-    <mat-card>
-      <h3>Quick Actions</h3>
-      <button mat-raised-button color="primary">Apply Leave</button>
-      <button mat-raised-button>Submit Expense</button>
-    </mat-card>
-  
-    <mat-card>
-      <h3>My Recent Activity</h3>
-      <ul>
-        <li>Leave applied</li>
-        <li>Expense approved</li>
-      </ul>
-    </mat-card>
-  </div>
-  
+<div class="quick-actions">
+  <button mat-raised-button color="primary" (click)="quickAction('leave')">
+    Apply Leave
+  </button>
+
+  <button mat-raised-button color="accent" (click)="quickAction('wfh')">
+    Request WFH
+  </button>
+
+  <button mat-raised-button color="warn" (click)="quickAction('profile')">
+    Update Profile
+  </button>
+</div>
+<div class="dashboard-grid">
+
+  <!-- Recent Submissions -->
+  <mat-card>
+    <h3>My Recent Submissions</h3>
+
+    <table class="simple-table">
+      <tr>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+
+      <tr *ngFor="let item of recentSubmissions">
+        <td>{{ item.type }}</td>
+        <td>
+          <span [ngClass]="item.status.toLowerCase()">
+            {{ item.status }}
+          </span>
+        </td>
+        <td>{{ item.date }}</td>
+      </tr>
+    </table>
+
+    <p *ngIf="recentSubmissions.length === 0" class="empty-state">
+      No submissions found
+    </p>
+  </mat-card>
+
+  <!-- Pending Tasks -->
+  <mat-card>
+    <h3>Pending Tasks</h3>
+
+    <ul class="task-list">
+      <li *ngFor="let task of pendingTasks">
+        <mat-icon>assignment</mat-icon>
+        {{ task.title }} – <small>{{ task.dueDate }}</small>
+      </li>
+    </ul>
+
+    <p *ngIf="pendingTasks.length === 0" class="empty-state">
+      No pending tasks 🎉
+    </p>
+  </mat-card>
+
+  <!-- Notifications -->
+  <mat-card>
+    <h3>Notifications</h3>
+
+    <ul class="notification-list">
+      <li *ngFor="let note of notifications">
+        <mat-icon>notifications</mat-icon>
+        {{ note.message }}
+        <span class="time">{{ note.time }}</span>
+      </li>
+    </ul>
+
+    <p *ngIf="notifications.length === 0" class="empty-state">
+      You're all caught up!
+    </p>
+  </mat-card>
+
+</div>
